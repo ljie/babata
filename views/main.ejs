@@ -13,7 +13,7 @@ position:fixed;}
 <script type="text/javascript">
 function findArticle(){
 	$.ajax({
-		url:"findDetail",
+		url:"findArticle",
 		data:{title:$("#searchId").val()},
 		dataType:"html",
 		success:function(msg){
@@ -166,23 +166,7 @@ function getDetail(id){
 					</tr>
 				</table>
 			</div>-->
-			<br><br>
-				<div style=border-style:dotted>			
-				<h3>Example Form</h3>
-				<form action="#">			
-				<p>			
-				<label>Name</label>
-				<input name="dname" value="Your Name" type="text" size="30" />
-				<label>Email</label>
-				<input name="demail" value="Your Email" type="text" size="30" />
-				<label>Your Comments</label>
-				<textarea rows="5" cols="5"></textarea>
-				<br />	
-				<input class="button" type="submit" />		
-				</p>		
-				</form>	
-			</div>
-			<br />	
+			
 
 		<!-- main ends -->	
 		</div>

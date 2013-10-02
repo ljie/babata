@@ -1,3 +1,55 @@
+
+<script type="text/javascript">
+$(function(){
+	getSuggestContent();
+})
+
+function getSuggestContent(){
+	$.ajax({
+		url:"getSuggestByArticleId",
+		data:{articleId:$("#detail_article_Id").val()},
+		dataType:"html",
+		success:function(msg){
+			$("#suggestContentdivId").html(msg);
+		}
+	})
+}
+function sendSuggest(){
+var name = $("#nameId").val();
+if(name.length>10 ){ $("#nameId").focus();$("#nameIdspan").text("不能大于10个字符");return;}
+var email = $("#emailId").val();
+var content = $("#contentId").val();
+	if(content.length<2 || content == ""){ 
+		$("#nameIdspan").text('');
+		$("#contentIdspan").text('');
+		$("#contentId").focus();$("#contentIdspan").text("不能小于2个字符或者不能为空");
+		return;
+	}
+	$.ajax({
+		type:"post",
+		url:"saveSuggest",
+		data:{articleId:$("#detail_article_Id").val(),name:name,email:email,content:content},
+		dataType:"text",
+		success:function(msg){
+			if(msg=="ok"){
+				$("#nameId").val('');
+				$("#emailId").val('');
+				$("#contentId").val('');
+				$("#nameIdspan").text('');
+				$("#contentIdspan").text('');
+				getSuggestContent();
+			}else{
+				$("#nameIdspan").text('');
+				$("#contentIdspan").text('');
+				alert("服务器异常，请稍后再试！")
+			}
+			
+		}
+	})
+
+}
+</script>
+
 <% posts.forEach(function(post, index){ %>
 			<div style=border-style:dotted>
 				<h2><a href="index.html"><%= post.title %></a>
@@ -5,7 +57,14 @@
 				</h2> 
 				<p class="post-info"><%= post.time %>&nbsp;/&nbsp;分类:<a href="index.html"><%= post.type %></a>&nbsp;/&nbsp;标签:<%= post.biaoqian %></p>				
 				<p style="margin-top:-17px;"><%= post.content %><%if(post.isLeave==1){%><br><%= post.contentLeave %><%}%></p>
+				<input value="<%= post.id %>" type="hidden" id="detail_article_Id"/>
 				<br/>
 			</div>	
 			<br><br>
 <% }) %>
+<%- include suggest %>
+
+<div  id="suggestContentdivId">			
+		
+</div>
+<br />

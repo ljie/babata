@@ -15,6 +15,15 @@ function Post(id,content,type,time,title,biaoqian,tuijian,liuyanCount,content_le
 	this.isLeave = is_leave;
 	
 }
+function Suggest(id,username,content,artical_id,email,time){
+    this.id = id;
+    this.username = username;
+    this.content = content
+    this.artical_id = artical_id;
+    this.email = email;
+    this.time = time;
+   
+}
 module.exports = Post;
 
 Post.getArticle = function(callback) {
@@ -70,13 +79,53 @@ Post.findDetail = function(id,callback) {//返回所有文章
 			//id,content,type,time,title,biaoqian,tuijian
 				rs.forEach(function(doc){
 					var post=new Post(doc.id,doc.content,doc.type,doc.time,doc.title,doc.biaoqian,doc.tuijian,doc.liuyanCount,doc.content_leave,doc.is_leave)
+					console.log(post);
+					console.log("===================findDetail");
 					array.push(post);	
 				});
+				 console.log(array+"=====================findDetail=");
+				callback(null,array);
+			}
+	});
+};
+//================================================================================suggest
+Post.getSuggestByArticleId = function(articleId,callback) {
+	var sql = "SELECT * FROM liuyan l WHERE l.artical_id= "+articleId
+			+" ORDER BY l.id desc";
+	var array=[];
+	mysql.query(sql, function(err, rs, fields){
+			if(err){
+				info = "error";	
+				callback(err,null);
+				console.log(err+"======================================");
+			} else{
+			//id,username,content,artical_id,email,time
+				rs.forEach(function(doc){
+				console.log(doc.is_leave+"======================================getSuggestByArticleId");
+					var article=new Suggest(doc.id,doc.username,doc.content,doc.artical_id,doc.email,doc.time)
+					array.push(article);
+				});	
 				callback(null,array);
 			}
 	});
 };
 
+Post.saveSuggest = function(articleId,name,email,content,callback) {
+	var date = new Date(),
+    time = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+	var sql = "INSERT INTO liuyan(username,content,artical_id,email,time) values('" + name  + "','" + content  +"','"+ articleId + "','" + email  + "','" + time + "')";
+	console.log(sql);
+	var array=[];
+	mysql.query(sql, function(err, rs, fields){
+			if(err){
+				info = "error";	
+				callback(err,null);
+				
+			} else{
+				callback(null,"ok");
+			}
+	});
+};
 
 
 
