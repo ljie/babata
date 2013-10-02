@@ -13,7 +13,7 @@ position:fixed;}
 <script type="text/javascript">
 function findArticle(){
 	$.ajax({
-		url:"findArticle",
+		url:"findDetail",
 		data:{title:$("#searchId").val()},
 		dataType:"html",
 		success:function(msg){
@@ -21,7 +21,16 @@ function findArticle(){
 		}
 	})
 }
-
+function getDetail(id){
+	$.ajax({
+		url:"findDetail",
+		data:{id:id},
+		dataType:"html",
+		success:function(msg){
+			$("#main").html(msg);
+		}
+	})
+}
 </script>
 	
 <div id="wrap">
@@ -67,8 +76,10 @@ function findArticle(){
 					<div style="float:right;font-size:14px;"><%= post.liuyanCount %>&nbsp;</div>		
 				</h2> 
 				<p class="post-info">分类:<a href="index.html"><%= post.type %></a>&nbsp;/&nbsp;标签:<%= post.biaoqian %></p>				
-				<p ><%= post.content %></p>
-				<div style="text-align:right"><%= post.time %>&nbsp;&nbsp;&nbsp;<span href="#" >阅读全文</span>&nbsp;&nbsp;&nbsp;</div>
+				<p style="margin-top:-17px;"><%= post.content %><%if(post.isLeave==1){%> <br>......<%}%></p>
+				<div style="text-align:right"><%= post.time %>&nbsp;&nbsp;&nbsp;
+					<a href="javascript:;" onclick="getDetail('<%= post.id %>')" style="color:#666666;">阅读全文</a>&nbsp;&nbsp;&nbsp;
+				</div>
 				<br/>
 			</div>	
 			<br><br>

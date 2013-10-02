@@ -25,6 +25,20 @@ module.exports = function(app){
       });
     });
   });
+  app.get('/findDetail', function(req,res){
+	console.log("========================findDetail");
+	var id = req.query.id;
+    Post.findDetail(id,function(err, posts){
+      if(err){
+        posts = [];
+      } 
+      res.render('detail',{
+        title: '主页',
+        posts: posts
+      });
+    });
+  });
+  
   app.all('*', function(req,res){
     res.render("404");
   });
