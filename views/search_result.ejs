@@ -1,0 +1,12 @@
+<% posts.forEach(function(post, index){ %>
+			<div style=border-style:dotted>
+				<h2><a href="index.html"><%= post.title %></a>
+					<div style="float:right;font-size:14px;"><%= post.liuyanCount %>&nbsp;</div>		
+				</h2> 
+				<p class="post-info">分类:<a href="index.html"><%= post.type %></a>&nbsp;/&nbsp;标签:<%= post.biaoqian %></p>				
+				<p ><%= post.content %></p>
+				<div style="text-align:right"><%= post.time %>&nbsp;&nbsp;&nbsp;<span href="#" >阅读全文</span>&nbsp;&nbsp;&nbsp;</div>
+				<br/>
+			</div>	
+			<br><br>
+<% }) %>
