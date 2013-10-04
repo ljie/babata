@@ -15,14 +15,14 @@ function Post(id,content,type,time,title,biaoqian,tuijian,liuyanCount,content_le
 	this.isLeave = is_leave;
 	
 }
-function Suggest(id,username,content,artical_id,email,time){
+function Suggest(id,username,content,artical_id,email,time,ipStr){
     this.id = id;
     this.username = username;
     this.content = content
     this.artical_id = artical_id;
     this.email = email;
     this.time = time;
-   
+	this.ipStr = ipStr;
 }
 module.exports = Post;
 
@@ -102,7 +102,7 @@ Post.getSuggestByArticleId = function(articleId,callback) {
 			//id,username,content,artical_id,email,time
 				rs.forEach(function(doc){
 				console.log(doc.is_leave+"======================================getSuggestByArticleId");
-					var article=new Suggest(doc.id,doc.username,doc.content,doc.artical_id,doc.email,doc.time)
+					var article=new Suggest(doc.id,doc.username,doc.content,doc.artical_id,doc.email,doc.time,doc.ipStr)
 					array.push(article);
 				});	
 				callback(null,array);
@@ -110,10 +110,15 @@ Post.getSuggestByArticleId = function(articleId,callback) {
 	});
 };
 
-Post.saveSuggest = function(articleId,name,email,content,callback) {
+Post.saveSuggest = function(req,callback) {
+	var articleId = req.body.articleId;
+	var name = req.body.name;
+	var email = req.body.email;
+	var ipStr = req.body.ipStr;
+	var content = req.body.content;
 	var date = new Date(),
     time = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
-	var sql = "INSERT INTO liuyan(username,content,artical_id,email,time) values('" + name  + "','" + content  +"','"+ articleId + "','" + email  + "','" + time + "')";
+	var sql = "INSERT INTO liuyan(username,content,artical_id,email,time,ipStr) values('" + name  + "','" + content  +"','"+ articleId + "','" + email  + "','" + time + "','" + ipStr + "')";
 	console.log(sql);
 	var array=[];
 	mysql.query(sql, function(err, rs, fields){

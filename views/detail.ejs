@@ -1,3 +1,4 @@
+<script language="javascript" type="text/javascript" src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js"></script>
 
 <script type="text/javascript">
 $(function(){
@@ -15,6 +16,7 @@ function getSuggestContent(){
 	})
 }
 function sendSuggest(){
+var ipStr = remote_ip_info.country + " · " + remote_ip_info.province + " · " +  remote_ip_info.isp;
 var name = $("#nameId").val();
 if(name.length>10 ){ $("#nameId").focus();$("#nameIdspan").text("不能大于10个字符");return;}
 var email = $("#emailId").val();
@@ -28,7 +30,7 @@ var content = $("#contentId").val();
 	$.ajax({
 		type:"post",
 		url:"saveSuggest",
-		data:{articleId:$("#detail_article_Id").val(),name:name,email:email,content:content},
+		data:{articleId:$("#detail_article_Id").val(),name:name,email:email,content:content,ipStr:ipStr},
 		dataType:"text",
 		success:function(msg){
 			if(msg=="ok"){

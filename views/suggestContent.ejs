@@ -3,7 +3,7 @@
 <div style="background-color: #FCFCFC; border: 1px solid #F1F1F1;">
 <p class="post-info" ><span style="font-size:14px;color: #895F30;font-weight: bold;">
 	<%if(post.username!=""){%><%= post.username %><%}else{%>佚名<%}%>:</span>
-					 <span style="font-size:10px;float:right;"><span ><%= post.time %></span>
+					 <span style="font-size:10px;float:right;"><span ><%= post.ipStr %>&nbsp;&nbsp;&nbsp;&nbsp;<%= post.time %></span>
 </p>				
 <p class="post-info" style="margin-top:-4px;"><%= post.content %></p>
 
